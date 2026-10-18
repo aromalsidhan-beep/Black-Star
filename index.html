@@ -44,6 +44,31 @@ function removeItem(id){delete cart[id];renderCart()}
 function renderCart(){const area=document.getElementById('cartItems');area.innerHTML='';let count=0,total=0;Object.keys(cart).forEach(id=>{const item=catalog[id],qty=cart[id];count+=qty;total+=item.price*qty;const row=document.createElement('div');row.className='cart-item';const name=document.createElement('strong');name.textContent=item.name;const price=document.createElement('p');price.textContent='₹'+item.price.toLocaleString('en-IN')+' each';const controls=document.createElement('div');controls.className='controls';const minus=document.createElement('button');minus.textContent='−';minus.onclick=()=>changeQty(id,-1);const quantity=document.createElement('span');quantity.textContent=qty;const plus=document.createElement('button');plus.textContent='+';plus.onclick=()=>changeQty(id,1);const remove=document.createElement('button');remove.textContent='Remove';remove.className='remove';remove.onclick=()=>removeItem(id);controls.append(minus,quantity,plus,remove);const subtotal=document.createElement('p');subtotal.textContent='Subtotal: ₹'+(item.price*qty).toLocaleString('en-IN');row.append(name,price,controls,subtotal);area.appendChild(row)});if(count===0)area.textContent='Your cart is empty.';document.getElementById('total').textContent='Total ('+count+' items): ₹'+total.toLocaleString('en-IN')}
 function filterProducts(){const q=document.getElementById('search').value.toLowerCase();document.querySelectorAll('.card').forEach(card=>card.style.display=card.dataset.name.includes(q)?'block':'none')}
 document.getElementById('checkoutForm').addEventListener('submit',function(e){e.preventDefault();const message=document.getElementById('orderMessage');if(Object.keys(cart).length===0){message.textContent='Please add a product before checkout.';return}message.textContent='Demo order review for '+document.getElementById('customerName').value+'. '+document.getElementById('total').textContent+'. No real order or payment was placed.'});renderCart();
-</script>
+const wishlist = [];
+
+document.querySelectorAll('.card').forEach(function(card) {
+  const name = card.getAttribute('data-name');
+  const button = document.createElement('button');
+
+  button.textContent = '♡ Add to Wishlist';
+  button.style.margin = '8px';
+  button.onclick = function() {
+    if (wishlist.includes(name)) {
+      wishlist.splice(wishlist.indexOf(name), 1);
+      button.textContent = '♡ Add to Wishlist';
+    } else {
+      wishlist.push(name);
+      button.textContent = '♥ Added to Wishlist';
+    }
+
+    document.getElementById('wishlistItems').textContent =
+      wishlist.length ? wishlist.join(', ') : 'Your wishlist is empty.';
+  };
+
+  card.appendChild(button);
+});
+
+document.getElementById('wishlistItems').textContent =
+  'Your wishlist is empty.';
 </body>
 </html>
