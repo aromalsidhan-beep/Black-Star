@@ -1,3 +1,5 @@
+
+cat > index.html <<'EOF'
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,69 +7,365 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Black Star Shopping</title>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f5f5f5;color:#222}header{background:#111;color:white;padding:20px}header h1{margin:0;font-size:26px}header p{margin:6px 0 0;color:#ddd}.search{padding:15px}input,textarea{width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-size:16px;margin:5px 0}h2{margin:16px 12px}.products{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:10px}.card,.cart-item,.checkout{background:white;border-radius:10px;padding:12px;box-shadow:0 2px 5px #ddd}.pic{height:90px;background:#eee;border-radius:8px;display:grid;place-items:center;font-size:42px}.card h3{font-size:15px;margin:10px 0 5px}.price{font-weight:bold;color:#087443}button{padding:10px;background:#111;color:white;border:0;border-radius:6px;margin-top:8px;font-size:14px;cursor:pointer}.card button{width:100%}.cart-item{margin:10px;padding:12px}.controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.controls button{min-width:38px}.remove{background:#a32222}.checkout{margin:12px}.checkout button{width:100%}footer{text-align:center;padding:20px;color:#666;font-size:13px}.note{font-size:13px;color:#666;margin:12px}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f5f6fa;color:#222}
+header{background:#111;color:white;text-align:center;padding:18px 12px}
+.logo{width:100%;max-width:230px;max-height:100px;object-fit:contain}
+header h1{margin:8px 0;font-size:27px}
+header p{color:#ddd;margin:5px}
+nav{background:#222;padding:12px;text-align:center;position:sticky;top:0;z-index:5}
+nav a{color:white;text-decoration:none;margin:0 10px;font-weight:bold;font-size:14px}
+main{max-width:1100px;margin:auto;padding:18px}
+.search{width:100%;padding:13px;border:1px solid #ccc;border-radius:8px;font-size:16px;margin-bottom:20px}
+h2{margin-top:25px}
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}
+.card{background:white;border-radius:12px;padding:16px;text-align:center;box-shadow:0 2px 8px #00000012}
+.pic{font-size:65px;background:#f1f2f6;border-radius:10px;padding:18px}
+.card h3{margin:12px 0 6px}
+.price{font-size:20px;font-weight:bold;color:#08783e;margin:12px}
+button{border:0;border-radius:7px;padding:10px 13px;cursor:pointer;font-weight:bold;margin:4px}
+.add{background:#111;color:white}
+.wish{background:#ffe9ee;color:#a10d35}
+.remove{background:#ffe4e4;color:#a00000}
+.qty{background:#e9edff;color:#182c82}
+.primary{background:#08783e;color:white;padding:12px 18px}
+.section{background:white;margin-top:24px;padding:18px;border-radius:12px;box-shadow:0 2px 8px #0000000c}
+.item{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:12px 0;border-bottom:1px solid #eee}
+.item:last-child{border-bottom:0}
+.item-name{font-weight:bold}
+.muted{color:#666;font-size:14px}
+.total{font-size:21px;font-weight:bold;margin-top:15px}
+.empty{color:#777;padding:10px 0}
+form{display:grid;gap:12px}
+input,textarea,select{width:100%;padding:12px;border:1px solid #ccc;border-radius:7px;font:inherit}
+textarea{min-height:85px;resize:vertical}
+.notice{display:none;padding:12px;background:#e8f5e9;color:#176b32;border-radius:7px;margin:12px 0}
+footer{text-align:center;background:#111;color:white;padding:22px;margin-top:30px}
+@media(max-width:480px){
+main{padding:12px}
+nav a{display:inline-block;margin:5px}
+header h1{font-size:23px}
+.item{align-items:flex-start}
+}
 </style>
 </head>
 <body>
-<header style="background:#000;padding:18px 12px;text-align:center">
-  <img src="black-star-logo.png.png" alt="Black Star Logo" style="width:100%;max-width:520px;height:auto;display:block;margin:auto">
+
+<header>
+<img class="logo" src="black-star-logo.png.png" alt="Black Star Logo"
+onerror="this.style.display='none'">
+<h1>BLACK STAR SHOPPING</h1>
+<p>Your favourite products, all in one place</p>
 </header>
-<div class="search"><input id="search" placeholder="Search products..." oninput="filterProducts()"></div>
-<h2>Featured Products</h2>
-<div class="products" id="products">
-<div class="card" data-name="wireless headphones"><div class="pic">🎧</div><h3>Wireless Headphones</h3><div class="price">₹999</div><button onclick="addToCart('headphones')">Add to Cart</button></div>
-<div class="card" data-name="smart watch"><div class="pic">⌚</div><h3>Smart Watch</h3><div class="price">₹1499</div><button onclick="addToCart('watch')">Add to Cart</button></div>
-<div class="card" data-name="sports shoes"><div class="pic">👟</div><h3>Sports Shoes</h3><div class="price">₹1199</div><button onclick="addToCart('shoes')">Add to Cart</button></div>
-<div class="card" data-name="travel backpack"><div class="pic">🎒</div><h3>Travel Backpack</h3><div class="price">₹799</div><button onclick="addToCart('bag')">Add to Cart</button></div>
-</div>
-<h2>My Wishlist ❤️</h2>
+
+<nav>
+<a href="#products">Products</a>
+<a href="#wishlist">❤️ Wishlist (<span id="wishCount">0</span>)</a>
+<a href="#cart">🛒 Cart (<span id="cartCount">0</span>)</a>
+<a href="#checkout">Checkout</a>
+</nav>
+
+<main>
+<input class="search" id="search" type="search"
+placeholder="🔎 Search products..." aria-label="Search products">
+
+<h2 id="products">Featured Products</h2>
+<div class="products" id="productGrid"></div>
+
+<div class="section" id="wishlist">
+<h2>❤️ My Wishlist</h2>
 <div id="wishlistItems"></div>
-<h2>Your Shopping Cart</h2>
-<div id="cartMessage" style="display:none;background:#e8f5e9;color:#16803d;padding:12px;border-radius:8px;margin:10px 0;font-weight:bold"></div>
+</div>
+
+<div class="section" id="cart">
+<h2>🛒 Your Shopping Cart</h2>
+<div class="notice" id="cartMessage" role="status"></div>
 <div id="cartItems"></div>
-<h2 id="total">Total (0 items): ₹0</h2>
-<footer>© 2026 Black Star Shopping</footer>
+<div class="total" id="total">Total (0 items): ₹0</div>
+<button class="remove" id="clearCart">Clear Cart</button>
+</div>
+
+<div class="section" id="checkout">
+<h2>📦 Checkout</h2>
+<p class="muted">Demo checkout only. No real payment is collected.</p>
+<div class="notice" id="checkoutMessage" role="status"></div>
+<form id="checkoutForm">
+<input id="customerName" placeholder="Full name" required>
+<input id="customerPhone" type="tel" placeholder="Phone number"
+pattern="[0-9+ ()-]{7,20}" required>
+<textarea id="customerAddress" placeholder="Delivery address" required></textarea>
+<select id="paymentMethod" required>
+<option value="">Choose payment method</option>
+<option value="Cash on Delivery">Cash on Delivery (demo)</option>
+<option value="Online Payment">Online Payment (not connected)</option>
+</select>
+<button class="primary" type="submit">Place Demo Order</button>
+</form>
+</div>
+</main>
+
+<footer>
+<strong>BLACK STAR SHOPPING</strong>
+<p>© 2026 Black Star Shopping. All rights reserved.</p>
+<p class="muted">Demo shopping website</p>
+</footer>
+
 <script>
-const catalog={headphones:{name:'Wireless Headphones',price:999},watch:{name:'Smart Watch',price:1499},shoes:{name:'Sports Shoes',price:1199},bag:{name:'Travel Backpack',price:799}};let cart={};
-function addToCart(id){
-  cart[id]=(cart[id]||0)+1;
-  renderCart();
-  const msg=document.getElementById('cartMessage');
-  msg.textContent='✓ Added to cart!';
-  msg.style.display='block';
-  clearTimeout(window.cartMessageTimer);
-  window.cartMessageTimer=setTimeout(()=>{msg.style.display='none'},2000);
+const products = [
+{id:"headphones",name:"Wireless Headphones",price:999,emoji:"🎧"},
+{id:"watch",name:"Smart Watch",price:1499,emoji:"⌚"},
+{id:"shoes",name:"Sports Shoes",price:1199,emoji:"👟"},
+{id:"backpack",name:"Travel Backpack",price:799,emoji:"🎒"}
+];
+
+function loadSaved(key) {
+  try {
+    return JSON.parse(localStorage.getItem(key)) || {};
+  } catch (error) {
+    return {};
+  }
 }
-function changeQty(id,amount){cart[id]=(cart[id]||0)+amount;if(cart[id]<=0)delete cart[id];renderCart()}
-function removeItem(id){delete cart[id];renderCart()}
-function renderCart(){const area=document.getElementById('cartItems');area.innerHTML='';let count=0,total=0;Object.keys(cart).forEach(id=>{const item=catalog[id],qty=cart[id];count+=qty;total+=item.price*qty;const row=document.createElement('div');row.className='cart-item';const name=document.createElement('strong');name.textContent=item.name;const price=document.createElement('p');price.textContent='₹'+item.price.toLocaleString('en-IN')+' each';const controls=document.createElement('div');controls.className='controls';const minus=document.createElement('button');minus.textContent='−';minus.onclick=()=>changeQty(id,-1);const quantity=document.createElement('span');quantity.textContent=qty;const plus=document.createElement('button');plus.textContent='+';plus.onclick=()=>changeQty(id,1);const remove=document.createElement('button');remove.textContent='Remove';remove.className='remove';remove.onclick=()=>removeItem(id);controls.append(minus,quantity,plus,remove);const subtotal=document.createElement('p');subtotal.textContent='Subtotal: ₹'+(item.price*qty).toLocaleString('en-IN');row.append(name,price,controls,subtotal);area.appendChild(row)});if(count===0)area.textContent='Your cart is empty.';document.getElementById('total').textContent='Total ('+count+' items): ₹'+total.toLocaleString('en-IN')}
-function filterProducts(){const q=document.getElementById('search').value.toLowerCase();document.querySelectorAll('.card').forEach(card=>card.style.display=card.dataset.name.includes(q)?'block':'none')}
-document.getElementById('checkoutForm').addEventListener('submit',function(e){e.preventDefault();const message=document.getElementById('orderMessage');if(Object.keys(cart).length===0){message.textContent='Please add a product before checkout.';return}message.textContent='Demo order review for '+document.getElementById('customerName').value+'. '+document.getElementById('total').textContent+'. No real order or payment was placed.'});renderCart();
-const wishlist = [];
 
-document.querySelectorAll('.card').forEach(function(card) {
-  const name = card.getAttribute('data-name');
-  const button = document.createElement('button');
+let cart = loadSaved("blackStarCart");
+let wishlist = loadSaved("blackStarWishlist");
 
-  button.textContent = '♡ Add to Wishlist';
-  button.style.margin = '8px';
-  button.onclick = function() {
-    if (wishlist.includes(name)) {
-      wishlist.splice(wishlist.indexOf(name), 1);
-      button.textContent = '♡ Add to Wishlist';
-    } else {
-      wishlist.push(name);
-      button.textContent = '♥ Added to Wishlist';
-    }
+function saveData() {
+  try {
+    localStorage.setItem("blackStarCart", JSON.stringify(cart));
+    localStorage.setItem("blackStarWishlist", JSON.stringify(wishlist));
+  } catch (error) {
+    showMessage("Your browser could not save changes permanently.");
+  }
+}
 
-    document.getElementById('wishlistItems').textContent =
-      wishlist.length ? wishlist.join(', ') : 'Your wishlist is empty.';
-  };
+function money(amount) {
+  return "₹" + Number(amount).toLocaleString("en-IN");
+}
 
-  card.appendChild(button);
+function showMessage(message) {
+  const box = document.getElementById("cartMessage");
+  box.textContent = message;
+  box.style.display = "block";
+  clearTimeout(window.messageTimer);
+  window.messageTimer = setTimeout(() => {
+    box.style.display = "none";
+  }, 2500);
+}
+
+function renderProducts() {
+  const grid = document.getElementById("productGrid");
+  const query = document.getElementById("search").value.trim().toLowerCase();
+  grid.replaceChildren();
+
+  const filtered = products.filter(p => p.name.toLowerCase().includes(query));
+
+  if (!filtered.length) {
+    grid.innerHTML = '<p class="empty">No products found.</p>';
+    return;
+  }
+
+  filtered.forEach(product => {
+    const card = document.createElement("article");
+    card.className = "card";
+
+    const pic = document.createElement("div");
+    pic.className = "pic";
+    pic.textContent = product.emoji;
+    pic.setAttribute("aria-hidden", "true");
+
+    const title = document.createElement("h3");
+    title.textContent = product.name;
+
+    const price = document.createElement("div");
+    price.className = "price";
+    price.textContent = money(product.price);
+
+    const addButton = document.createElement("button");
+    addButton.className = "add";
+    addButton.textContent = "Add to Cart";
+    addButton.onclick = () => addToCart(product.id);
+
+    const wishButton = document.createElement("button");
+    wishButton.className = "wish";
+    wishButton.textContent = wishlist[product.id] ? "♥ Wishlisted" : "♡ Add to Wishlist";
+    wishButton.onclick = () => toggleWishlist(product.id);
+
+    card.append(pic, title, price, addButton, wishButton);
+    grid.appendChild(card);
+  });
+}
+
+function addToCart(id) {
+  cart[id] = (Number(cart[id]) || 0) + 1;
+  saveData();
+  renderCart();
+  showMessage("✓ Added to cart!");
+}
+
+function changeQty(id, amount) {
+  cart[id] = (Number(cart[id]) || 0) + amount;
+  if (cart[id] <= 0) delete cart[id];
+  saveData();
+  renderCart();
+}
+
+function removeItem(id) {
+  delete cart[id];
+  saveData();
+  renderCart();
+}
+
+function renderCart() {
+  const area = document.getElementById("cartItems");
+  area.replaceChildren();
+  let count = 0;
+  let total = 0;
+
+  products.forEach(product => {
+    const qty = Number(cart[product.id]) || 0;
+    if (qty <= 0) return;
+
+    count += qty;
+    total += qty * product.price;
+
+    const row = document.createElement("div");
+    row.className = "item";
+
+    const details = document.createElement("div");
+    const name = document.createElement("div");
+    name.className = "item-name";
+    name.textContent = product.emoji + " " + product.name;
+    const subtotal = document.createElement("div");
+    subtotal.className = "muted";
+    subtotal.textContent = money(product.price) + " each · Subtotal: " + money(qty * product.price);
+    details.append(name, subtotal);
+
+    const controls = document.createElement("div");
+    const minus = document.createElement("button");
+    minus.className = "qty";
+    minus.textContent = "−";
+    minus.setAttribute("aria-label", "Decrease quantity");
+    minus.onclick = () => changeQty(product.id, -1);
+
+    const quantity = document.createElement("strong");
+    quantity.textContent = " " + qty + " ";
+
+    const plus = document.createElement("button");
+    plus.className = "qty";
+    plus.textContent = "+";
+    plus.setAttribute("aria-label", "Increase quantity");
+    plus.onclick = () => changeQty(product.id, 1);
+
+    const remove = document.createElement("button");
+    remove.className = "remove";
+    remove.textContent = "Remove";
+    remove.onclick = () => removeItem(product.id);
+
+    controls.append(minus, quantity, plus, remove);
+    row.append(details, controls);
+    area.appendChild(row);
+  });
+
+  if (count === 0) {
+    area.innerHTML = '<p class="empty">Your cart is empty. Add a product to get started!</p>';
+  }
+
+  document.getElementById("total").textContent =
+    "Total (" + count + " items): " + money(total);
+  document.getElementById("cartCount").textContent = count;
+}
+
+function toggleWishlist(id) {
+  if (wishlist[id]) {
+    delete wishlist[id];
+  } else {
+    wishlist[id] = true;
+  }
+  saveData();
+  renderWishlist();
+  renderProducts();
+}
+
+function removeWishlist(id) {
+  delete wishlist[id];
+  saveData();
+  renderWishlist();
+  renderProducts();
+}
+
+function renderWishlist() {
+  const area = document.getElementById("wishlistItems");
+  area.replaceChildren();
+  const saved = products.filter(p => wishlist[p.id]);
+
+  document.getElementById("wishCount").textContent = saved.length;
+
+  if (!saved.length) {
+    area.innerHTML = '<p class="empty">Your wishlist is empty. Tap ♡ on a product to save it.</p>';
+    return;
+  }
+
+  saved.forEach(product => {
+    const row = document.createElement("div");
+    row.className = "item";
+
+    const name = document.createElement("span");
+    name.className = "item-name";
+    name.textContent = product.emoji + " " + product.name + " — " + money(product.price);
+
+    const controls = document.createElement("div");
+    const add = document.createElement("button");
+    add.className = "add";
+    add.textContent = "Add to Cart";
+    add.onclick = () => addToCart(product.id);
+
+    const remove = document.createElement("button");
+    remove.className = "remove";
+    remove.textContent = "Remove";
+    remove.onclick = () => removeWishlist(product.id);
+
+    controls.append(add, remove);
+    row.append(name, controls);
+    area.appendChild(row);
+  });
+}
+
+document.getElementById("search").addEventListener("input", renderProducts);
+
+document.getElementById("clearCart").addEventListener("click", () => {
+  cart = {};
+  saveData();
+  renderCart();
+  showMessage("Cart cleared.");
 });
 
-document.getElementById('wishlistItems').textContent =
-  'Your wishlist is empty.';
+document.getElementById("checkoutForm").addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  const count = products.reduce((sum, p) => sum + (Number(cart[p.id]) || 0), 0);
+  if (count === 0) {
+    const box = document.getElementById("checkoutMessage");
+    box.textContent = "Your cart is empty. Add a product before checkout.";
+    box.style.display = "block";
+    return;
+  }
+
+  const name = document.getElementById("customerName").value.trim();
+  const method = document.getElementById("paymentMethod").value;
+  const total = products.reduce((sum, p) =>
+    sum + (Number(cart[p.id]) || 0) * p.price, 0);
+
+  const box = document.getElementById("checkoutMessage");
+  box.textContent = "Demo order prepared for " + name + ". Total: " +
+    money(total) + ". Payment choice: " + method +
+    ". No real order or payment was submitted. A backend is needed for real orders.";
+  box.style.display = "block";
+});
+
+renderProducts();
+renderCart();
+renderWishlist();
+</script>
 </body>
 </html>
+EOF
