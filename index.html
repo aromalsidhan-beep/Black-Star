@@ -1,379 +1,286 @@
-cat > index.html <<'EOF'
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#0b0b0b">
-<meta name="description" content="Shop electronics, fashion and travel products at Black Star Shopping.">
-<title>Black Star Shopping | Premium Marketplace</title>
+<meta name="theme-color" content="#090909">
+<title>Black Star Shopping</title>
 <style>
-:root{--black:#0b0b0b;--panel:#151515;--gold:#d4af37;--gold2:#f5d76e;--text:#f8f6ef;--muted:#b8b5ab;--line:#343126;--green:#5dd39e;--red:#ff8585}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--black);color:var(--text);font-family:Arial,Helvetica,sans-serif}
-a{color:inherit;text-decoration:none}
-button,input,select,textarea{font:inherit}
-button{cursor:pointer}
-header{background:linear-gradient(135deg,#050505,#1b180e);border-bottom:1px solid var(--line);padding:20px 14px;text-align:center}
-.logo{width:170px;height:65px;object-fit:contain;display:block;margin:0 auto 8px}
-.brand{font-size:clamp(25px,5vw,38px);font-weight:900;letter-spacing:2px;margin:4px 0;color:var(--gold)}
-.tagline{color:var(--muted);margin:8px 0 0;font-size:14px}
-nav{position:sticky;top:0;z-index:10;background:#101010;border-bottom:1px solid var(--line);display:flex;justify-content:center;gap:8px;flex-wrap:wrap;padding:11px}
-nav a{padding:9px 12px;border-radius:6px;font-size:13px;font-weight:bold}
-nav a:hover{background:#282317;color:var(--gold2)}
-main{width:min(1180px,100%);margin:auto;padding:18px}
-.hero{background:radial-gradient(ellipse at top right,#4b3a12,#17140b 48%,#111);border:1px solid #4c3e1d;border-radius:16px;padding:27px 20px;margin:5px 0 22px}
-.hero h1{font-size:clamp(25px,5vw,40px);margin:0 0 10px;color:var(--gold2)}
-.hero p{line-height:1.6;color:#e1ddcf;max-width:580px}
-.gold-button,.add{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#16120a;border:0;font-weight:bold;border-radius:7px;padding:11px 14px}
-.gold-button:hover,.add:hover{filter:brightness(1.08)}
-.search{width:100%;padding:14px;border:1px solid #4d4633;background:#171717;color:white;border-radius:9px;margin:0 0 20px;outline-color:var(--gold)}
-h2{font-size:23px;margin:26px 0 14px}
-h2 span{color:var(--gold)}
-.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:17px}
-.filter{background:#191919;color:#ddd;border:1px solid #45402f;padding:9px 13px;border-radius:20px}
-.filter.active,.filter:hover{background:var(--gold);color:#15120a;border-color:var(--gold)}
-.products{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
-.card{min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;transition:transform .18s,border-color .18s}
-.card:hover{transform:translateY(-3px);border-color:var(--gold)}
-.product-image{width:100%;height:180px;object-fit:cover;display:block;background:#222}
-.image-fallback{height:180px;display:flex;align-items:center;justify-content:center;font-size:55px;background:#222}
-.card-content{padding:13px}
-.category{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--gold)}
-.card h3{font-size:16px;line-height:1.35;min-height:42px;margin:8px 0}
-.price{font-size:20px;font-weight:bold;color:var(--gold2);margin:10px 0}
-.rating{font-size:12px;color:#e6ca70;margin-bottom:11px}
-.card-actions{display:grid;grid-template-columns:1fr;gap:7px}
-.wish{background:#292318;color:var(--gold2);border:1px solid #625027;padding:10px;border-radius:7px}
-.section{background:#121212;border:1px solid var(--line);border-radius:12px;padding:17px;margin-top:23px;scroll-margin-top:80px}
-.item{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:13px 0;border-bottom:1px solid #2e2b22}
-.item:last-child{border-bottom:0}
-.item-name{font-weight:bold;line-height:1.5}
-.muted,.empty{color:var(--muted);font-size:13px;line-height:1.6}
-.total{font-size:22px;font-weight:bold;color:var(--gold2);margin:18px 0}
-.qty{background:#252319;color:var(--gold2);border:1px solid #51462a;border-radius:6px;padding:8px 12px}
-.remove{background:#3b1919;color:#ffc0c0;border:1px solid #6a3030;border-radius:6px;padding:9px 11px}
-.clear{margin-top:10px}
-.notice{display:none;border-radius:7px;padding:12px;margin:12px 0;background:#163126;color:var(--green);line-height:1.5}
-form{display:grid;gap:12px}
-input,textarea,select{width:100%;padding:12px;background:#1b1b1b;color:white;border:1px solid #45402f;border-radius:7px}
-textarea{min-height:85px;resize:vertical}
-footer{margin-top:35px;text-align:center;padding:25px 15px;background:#050505;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
-footer strong{color:var(--gold)}
-@media(max-width:850px){.products{grid-template-columns:repeat(2,minmax(0,1fr))}.product-image,.image-fallback{height:160px}}
-@media(max-width:420px){main{padding:12px}.products{gap:10px}.product-image,.image-fallback{height:130px}.card-content{padding:10px}.card h3{font-size:14px}.price{font-size:18px}nav{gap:2px}nav a{padding:9px 8px;font-size:12px}}
+:root{--gold:#d4af37;--bg:#090909;--panel:#171717;--muted:#bbb}
+body{margin:0;background:var(--bg);color:#fff;font-family:Arial,sans-serif}
+header{text-align:center;padding:24px 12px;background:#000;border-bottom:1px solid #514217}
+.logo{font-size:30px;font-weight:900;letter-spacing:2px;color:var(--gold)}
+header p{color:#ccc;margin:8px 0 0}
+main{max-width:1100px;margin:auto;padding:16px}
+h2{color:var(--gold);margin-top:28px}
+input{width:100%;padding:13px;margin:7px 0;background:#111;color:white;border:1px solid #514217;border-radius:8px;font-size:16px}
+button{padding:11px 13px;border:0;border-radius:8px;font-size:14px;font-weight:bold;cursor:pointer}
+.gold{background:var(--gold);color:#111}
+.secondary{background:#292929;color:#fff;border:1px solid #68551e}
+.products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.card{min-width:0;background:var(--panel);border:1px solid #443819;border-radius:12px;padding:10px}
+.card img{width:100%;height:150px;object-fit:cover;border-radius:8px;background:#222}
+.card h3{font-size:15px;min-height:36px}
+.price{color:var(--gold);font-size:19px;font-weight:bold}
+.actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.actions button{flex:1;min-width:65px}
+.item{padding:12px 0;border-bottom:1px solid #333}
+.notice{padding:12px;margin:12px 0;border-radius:8px;background:#29230f;color:#f2d879;overflow-wrap:anywhere}
+.muted{color:var(--muted);font-size:14px}
+footer{text-align:center;color:#999;padding:28px 10px}
+@media(min-width:650px){.products{grid-template-columns:repeat(4,minmax(0,1fr))}.card img{height:190px}}
 </style>
 </head>
 <body>
 <header>
-<img class="logo" src="black-star-logo.png.png" alt="Black Star logo" onerror="this.style.display='none'">
-<div class="brand">BLACK STAR</div>
-<div class="tagline">Premium Shopping · Great Finds · Smart Choices</div>
+  <div class="logo">★ BLACK STAR</div>
+  <p>Premium Shopping · Quality You Can Trust</p>
 </header>
 
-<nav>
-<a href="#products">Shop</a>
-<a href="#wishlist">♡ Wishlist <span id="wishCount">0</span></a>
-<a href="#cart">🛒 Cart <span id="cartCount">0</span></a>
-<a href="#checkout">Checkout</a>
-</nav>
-
 <main>
-<section class="hero">
-<h1>Discover Something Great.</h1>
-<p>Explore everyday essentials, smart gadgets, fashion and travel favourites at Black Star Shopping.</p>
-<a href="#products"><button class="gold-button">Explore Products →</button></a>
-</section>
+  <div id="status" class="notice">Connecting to Black Star database…</div>
+  <input id="search" type="search" placeholder="Search products…" aria-label="Search products">
 
-<input class="search" id="search" type="search" placeholder="Search products..." aria-label="Search products">
+  <h2>Featured Products</h2>
+  <div id="products" class="products"></div>
 
-<h2 id="products"><span>★</span> Featured Products</h2>
-<div class="filters" id="filters">
-<button class="filter active" data-category="All">All Products</button>
-<button class="filter" data-category="Electronics">Electronics</button>
-<button class="filter" data-category="Fashion">Fashion</button>
-<button class="filter" data-category="Travel">Travel</button>
-</div>
-<div class="products" id="productGrid"></div>
+  <h2>My Wishlist ♥</h2>
+  <div id="wishlist"></div>
 
-<section class="section" id="wishlist">
-<h2><span>♡</span> My Wishlist</h2>
-<div id="wishlistItems"></div>
-</section>
+  <h2>Your Shopping Cart</h2>
+  <div id="cart"></div>
+  <h3 id="total" class="price">Total: ₹0</h3>
 
-<section class="section" id="cart">
-<h2><span>🛒</span> Your Shopping Cart</h2>
-<div class="notice" id="cartMessage" role="status"></div>
-<div id="cartItems"></div>
-<div class="total" id="total">Total (0 items): ₹0</div>
-<button class="remove clear" id="clearCart">Clear Cart</button>
-</section>
-
-<section class="section" id="checkout">
-<h2><span>▣</span> Demo Checkout</h2>
-<p class="muted">This demo does not send orders or collect payments. Do not enter real sensitive information.</p>
-<div class="notice" id="checkoutMessage" role="status"></div>
-<form id="checkoutForm">
-<input id="customerName" placeholder="Customer name" required>
-<input id="customerPhone" type="tel" placeholder="Phone number" required>
-<textarea id="customerAddress" placeholder="Delivery address" required></textarea>
-<select id="paymentMethod" required>
-<option value="">Choose payment option</option>
-<option value="Cash on Delivery">Cash on Delivery (demo)</option>
-<option value="Online Payment">Online Payment (not connected)</option>
-</select>
-<button class="gold-button" type="submit">Prepare Demo Order</button>
-</form>
-</section>
+  <h2>Demo Checkout</h2>
+  <p class="muted">Demo only. This does not create a real order or take payment.</p>
+  <input id="customerName" placeholder="Your name" autocomplete="name">
+  <input id="customerPhone" placeholder="Phone number" type="tel" autocomplete="tel">
+  <input id="customerAddress" placeholder="Delivery address" autocomplete="street-address">
+  <button class="gold" id="checkout">Place Demo Order</button>
+  <div id="checkoutMessage" class="notice" hidden></div>
 </main>
 
-<footer>
-<strong>BLACK STAR SHOPPING</strong>
-<p>© 2026 Black Star Shopping. All rights reserved.</p>
-<p>Premium style. Everyday value.</p>
-</footer>
+<footer>© 2026 Black Star Shopping</footer>
 
 <script>
-const products = [
-{id:"headphones",name:"Wireless Headphones",price:999,category:"Electronics",emoji:"🎧",rating:"★★★★☆",image:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80"},
-{id:"watch",name:"Smart Watch",price:1499,category:"Electronics",emoji:"⌚",rating:"★★★★☆",image:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80"},
-{id:"shoes",name:"Sports Shoes",price:1199,category:"Fashion",emoji:"👟",rating:"★★★★★",image:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80"},
-{id:"backpack",name:"Travel Backpack",price:799,category:"Travel",emoji:"🎒",rating:"★★★★☆",image:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80"}
+"use strict";
+
+const SUPABASE_URL = "https://wwgtthnfntskeqkmnrtf.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_YZ5cdU4un39XsnZpzWfYlg_XOf-2Vn_";
+
+const fallbackProducts = [
+ {id:"headphones",name:"Wireless Headphones",price:999,image_url:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80"},
+ {id:"watch",name:"Smart Watch",price:1499,image_url:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80"},
+ {id:"shoes",name:"Sports Shoes",price:1199,image_url:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80"},
+ {id:"backpack",name:"Travel Backpack",price:799,image_url:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80"}
 ];
 
-function loadSaved(key){
-  try{return JSON.parse(localStorage.getItem(key))||{}}
-  catch(error){return {}}
-}
-let cart=loadSaved("blackStarCart");
-let wishlist=loadSaved("blackStarWishlist");
-let activeCategory="All";
+let products = fallbackProducts;
+let cart = readStorage("blackStarCart", {});
+let wishlist = readStorage("blackStarWishlist", []);
 
-function saveData(){
-  try{
-    localStorage.setItem("blackStarCart",JSON.stringify(cart));
-    localStorage.setItem("blackStarWishlist",JSON.stringify(wishlist));
-  }catch(error){
-    console.warn("Browser storage is unavailable.");
+function readStorage(key, fallback) {
+  try {
+    const value = JSON.parse(localStorage.getItem(key));
+    return value ?? fallback;
+  } catch {
+    return fallback;
   }
 }
-function money(amount){return "₹"+Number(amount).toLocaleString("en-IN")}
-function showMessage(message){
-  const box=document.getElementById("cartMessage");
-  box.textContent=message;
-  box.style.display="block";
-  clearTimeout(window.messageTimer);
-  window.messageTimer=setTimeout(()=>box.style.display="none",2500);
+
+const money = n => "₹" + Number(n).toLocaleString("en-IN",{maximumFractionDigits:2});
+
+function safe(value) {
+  return String(value ?? "").replace(/[&<>"']/g, ch => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  })[ch]);
 }
 
-function renderProducts(){
-  const grid=document.getElementById("productGrid");
-  const query=document.getElementById("search").value.trim().toLowerCase();
-  grid.replaceChildren();
-  const filtered=products.filter(p=>
-    (activeCategory==="All"||p.category===activeCategory)&&
-    p.name.toLowerCase().includes(query)
-  );
-  if(!filtered.length){
-    const empty=document.createElement("p");
-    empty.className="empty";
-    empty.textContent="No products found. Try another search or category.";
-    grid.appendChild(empty);
-    return;
-  }
-  filtered.forEach(product=>{
-    const card=document.createElement("article");
-    card.className="card";
-    const img=document.createElement("img");
-    img.className="product-image";
-    img.src=product.image;
-    img.alt=product.name;
-    img.loading="lazy";
-    img.onerror=function(){
-      const fallback=document.createElement("div");
-      fallback.className="image-fallback";
-      fallback.textContent=product.emoji;
-      this.replaceWith(fallback);
-    };
-    const content=document.createElement("div");
-    content.className="card-content";
-    const category=document.createElement("div");
-    category.className="category";
-    category.textContent=product.category;
-    const title=document.createElement("h3");
-    title.textContent=product.name;
-    const rating=document.createElement("div");
-    rating.className="rating";
-    rating.textContent=product.rating+" · Demo rating";
-    const price=document.createElement("div");
-    price.className="price";
-    price.textContent=money(product.price);
-    const actions=document.createElement("div");
-    actions.className="card-actions";
-    const add=document.createElement("button");
-    add.className="add";
-    add.textContent="Add to Cart";
-    add.onclick=()=>addToCart(product.id);
-    const wish=document.createElement("button");
-    wish.className="wish";
-    wish.textContent=wishlist[product.id]?"♥ Wishlisted":"♡ Add to Wishlist";
-    wish.onclick=()=>toggleWishlist(product.id);
-    actions.append(add,wish);
-    content.append(category,title,rating,price,actions);
-    card.append(img,content);
-    grid.appendChild(card);
-  });
+function save() {
+  localStorage.setItem("blackStarCart", JSON.stringify(cart));
+  localStorage.setItem("blackStarWishlist", JSON.stringify(wishlist));
 }
 
-function addToCart(id){
-  cart[id]=(Number(cart[id])||0)+1;
-  saveData();
-  renderCart();
-  showMessage("✓ Added to cart!");
+function productImage(product) {
+  return product.image_url ||
+    fallbackProducts.find(item => item.name === product.name)?.image_url || "";
 }
-function changeQty(id,amount){
-  cart[id]=(Number(cart[id])||0)+amount;
-  if(cart[id]<=0)delete cart[id];
-  saveData();
-  renderCart();
+
+function renderProducts() {
+  const term = document.getElementById("search").value.trim().toLowerCase();
+  const shown = products.filter(p => p.name.toLowerCase().includes(term));
+
+  document.getElementById("products").innerHTML = shown.map(p => `
+    <article class="card">
+      <img src="${safe(productImage(p))}" alt="${safe(p.name)}" loading="lazy">
+      <h3>${safe(p.name)}</h3>
+      <div class="price">${money(p.price)}</div>
+      <div class="actions">
+        <button class="gold" data-add="${safe(p.id)}">Add to Cart</button>
+        <button class="secondary" data-wish="${safe(p.id)}">
+          ${wishlist.includes(String(p.id)) ? "♥ Saved" : "♡ Wishlist"}
+        </button>
+      </div>
+    </article>
+  `).join("") || "<p>No products found.</p>";
 }
-function removeItem(id){
-  delete cart[id];
-  saveData();
-  renderCart();
-}
-function renderCart(){
-  const area=document.getElementById("cartItems");
-  area.replaceChildren();
-  let count=0,total=0;
-  products.forEach(product=>{
-    const qty=Number(cart[product.id])||0;
-    if(qty<=0)return;
-    count+=qty;
-    total+=qty*product.price;
-    const row=document.createElement("div");
-    row.className="item";
-    const details=document.createElement("div");
-    const name=document.createElement("div");
-    name.className="item-name";
-    name.textContent=product.emoji+" "+product.name;
-    const subtotal=document.createElement("div");
-    subtotal.className="muted";
-    subtotal.textContent=money(product.price)+" each · Subtotal: "+money(qty*product.price);
-    details.append(name,subtotal);
-    const controls=document.createElement("div");
-    const minus=document.createElement("button");
-    minus.className="qty";
-    minus.textContent="−";
-    minus.setAttribute("aria-label","Decrease quantity");
-    minus.onclick=()=>changeQty(product.id,-1);
-    const number=document.createElement("strong");
-    number.textContent=" "+qty+" ";
-    const plus=document.createElement("button");
-    plus.className="qty";
-    plus.textContent="+";
-    plus.setAttribute("aria-label","Increase quantity");
-    plus.onclick=()=>changeQty(product.id,1);
-    const remove=document.createElement("button");
-    remove.className="remove";
-    remove.textContent="Remove";
-    remove.onclick=()=>removeItem(product.id);
-    controls.append(minus,number,plus,remove);
-    row.append(details,controls);
-    area.appendChild(row);
-  });
-  if(count===0){
-    const empty=document.createElement("p");
-    empty.className="empty";
-    empty.textContent="Your cart is empty. Add a product to get started!";
-    area.appendChild(empty);
+
+function renderCart() {
+  let total = 0;
+  let count = 0;
+  let html = "";
+
+  for (const [id, quantity] of Object.entries(cart)) {
+    const product = products.find(p => String(p.id) === id);
+    if (!product || quantity < 1) continue;
+
+    total += Number(product.price) * quantity;
+    count += quantity;
+
+    html += `
+      <div class="item">
+        <strong>${safe(product.name)}</strong><br>
+        ${money(product.price)} × ${quantity}
+        <div class="actions">
+          <button class="secondary" data-minus="${safe(id)}">−</button>
+          <button class="secondary" data-plus="${safe(id)}">+</button>
+          <button class="secondary" data-remove="${safe(id)}">Remove</button>
+        </div>
+      </div>`;
   }
-  document.getElementById("total").textContent="Total ("+count+" items): "+money(total);
-  document.getElementById("cartCount").textContent=count;
+
+  document.getElementById("cart").innerHTML =
+    html || '<p class="muted">Your cart is empty.</p>';
+  document.getElementById("total").textContent =
+    `Total (${count} items): ${money(total)}`;
 }
-function toggleWishlist(id){
-  if(wishlist[id])delete wishlist[id];
-  else wishlist[id]=true;
-  saveData();
-  renderWishlist();
+
+function renderWishlist() {
+  const savedProducts = products.filter(p => wishlist.includes(String(p.id)));
+
+  document.getElementById("wishlist").innerHTML = savedProducts.map(p => `
+    <div class="item">
+      ${safe(p.name)} — ${money(p.price)}
+      <button class="secondary" data-wish="${safe(p.id)}">Remove</button>
+      <button class="gold" data-add="${safe(p.id)}">Add to Cart</button>
+    </div>
+  `).join("") || '<p class="muted">Your wishlist is empty.</p>';
+}
+
+function render() {
   renderProducts();
-}
-function removeWishlist(id){
-  delete wishlist[id];
-  saveData();
-  renderWishlist();
-  renderProducts();
-}
-function renderWishlist(){
-  const area=document.getElementById("wishlistItems");
-  area.replaceChildren();
-  const saved=products.filter(p=>wishlist[p.id]);
-  document.getElementById("wishCount").textContent=saved.length;
-  if(!saved.length){
-    const empty=document.createElement("p");
-    empty.className="empty";
-    empty.textContent="Your wishlist is empty. Tap ♡ on a product to save it.";
-    area.appendChild(empty);
-    return;
-  }
-  saved.forEach(product=>{
-    const row=document.createElement("div");
-    row.className="item";
-    const name=document.createElement("span");
-    name.className="item-name";
-    name.textContent=product.emoji+" "+product.name+" — "+money(product.price);
-    const controls=document.createElement("div");
-    const add=document.createElement("button");
-    add.className="add";
-    add.textContent="Add to Cart";
-    add.onclick=()=>addToCart(product.id);
-    const remove=document.createElement("button");
-    remove.className="remove";
-    remove.textContent="Remove";
-    remove.onclick=()=>removeWishlist(product.id);
-    controls.append(add,remove);
-    row.append(name,controls);
-    area.appendChild(row);
-  });
-}
-
-document.getElementById("search").addEventListener("input",renderProducts);
-document.querySelectorAll(".filter").forEach(button=>{
-  button.addEventListener("click",()=>{
-    activeCategory=button.dataset.category;
-    document.querySelectorAll(".filter").forEach(b=>b.classList.toggle("active",b===button));
-    renderProducts();
-  });
-});
-document.getElementById("clearCart").addEventListener("click",()=>{
-  cart={};
-  saveData();
   renderCart();
-  showMessage("Cart cleared.");
-});
-document.getElementById("checkoutForm").addEventListener("submit",event=>{
-  event.preventDefault();
-  const count=products.reduce((sum,p)=>sum+(Number(cart[p.id])||0),0);
-  const box=document.getElementById("checkoutMessage");
-  box.style.display="block";
-  if(count===0){
-    box.textContent="Your cart is empty. Add a product before checkout.";
-    return;
+  renderWishlist();
+}
+
+document.addEventListener("click", event => {
+  const button = event.target.closest("button");
+  if (!button) return;
+
+  if (button.dataset.add !== undefined) {
+    const id = String(button.dataset.add);
+    cart[id] = (Number(cart[id]) || 0) + 1;
+    save();
+    renderCart();
+    document.getElementById("status").textContent = "✓ Added to cart!";
   }
-  const name=document.getElementById("customerName").value.trim();
-  const method=document.getElementById("paymentMethod").value;
-  const total=products.reduce((sum,p)=>sum+(Number(cart[p.id])||0)*p.price,0);
-  box.textContent="Demo order prepared for "+name+". Total: "+money(total)+
-    ". Payment option: "+method+
-    ". No real order or payment was submitted.";
+
+  if (button.dataset.plus !== undefined) {
+    const id = button.dataset.plus;
+    cart[id] = (Number(cart[id]) || 0) + 1;
+    save();
+    renderCart();
+  }
+
+  if (button.dataset.minus !== undefined) {
+    const id = button.dataset.minus;
+    cart[id] = (Number(cart[id]) || 0) - 1;
+    if (cart[id] <= 0) delete cart[id];
+    save();
+    renderCart();
+  }
+
+  if (button.dataset.remove !== undefined) {
+    delete cart[button.dataset.remove];
+    save();
+    renderCart();
+  }
+
+  if (button.dataset.wish !== undefined) {
+    const id = String(button.dataset.wish);
+    wishlist = wishlist.includes(id)
+      ? wishlist.filter(item => item !== id)
+      : [...wishlist, id];
+    save();
+    render();
+  }
 });
 
-renderProducts();
-renderCart();
-renderWishlist();
+document.getElementById("search").addEventListener("input", renderProducts);
+
+async function loadProducts() {
+  try {
+    const response = await fetch(
+      `${SUPABASE_URL}/rest/v1/products?select=id,name,description,price,image_url,category,stock&active=eq.true&order=id`,
+      {
+        headers: {
+          "apikey": SUPABASE_PUBLISHABLE_KEY,
+          "Authorization": "Bearer " + SUPABASE_PUBLISHABLE_KEY
+        }
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Supabase HTTP " + response.status);
+    }
+
+    const data = await response.json();
+    if (!Array.isArray(data)) throw new Error("Invalid product response");
+
+    products = data.map(p => ({
+      ...p,
+      id: String(p.id),
+      price: Number(p.price)
+    }));
+
+    document.getElementById("status").textContent =
+      "✓ Products loaded from your Black Star database.";
+  } catch (error) {
+    products = fallbackProducts;
+    document.getElementById("status").textContent =
+      "Database connection failed. Showing sample products. Check Supabase API access and product-table permissions.";
+    console.error("Product loading error:", error);
+  }
+
+  render();
+}
+
+document.getElementById("checkout").addEventListener("click", () => {
+  const message = document.getElementById("checkoutMessage");
+  const name = document.getElementById("customerName").value.trim();
+  const phone = document.getElementById("customerPhone").value.trim();
+  const address = document.getElementById("customerAddress").value.trim();
+
+  message.hidden = false;
+
+  if (!Object.keys(cart).length) {
+    message.textContent = "Your cart is empty.";
+    return;
+  }
+
+  if (!name || !phone || !address) {
+    message.textContent = "Enter your name, phone number, and delivery address to preview demo checkout.";
+    return;
+  }
+
+  message.textContent =
+    "Demo checkout only. No order was saved and no payment was taken.";
+});
+
+render();
+loadProducts();
 </script>
 </body>
 </html>
-EOF
-  
